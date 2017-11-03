@@ -1,12 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="/style/style.css">
-    <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/48938155eb24b4ccdde09426066869504c6dab3c/dist/css/bootstrap.min.css">
-    <script src="https://maps.googleapis.com/maps/api/js"></script>
-  </head>
-  <body>
-    <div class="container"></div>
-  </body>
-  <script src="/bundle.js"></script>
+
+<head>
+  <link rel="stylesheet" href="/style/style.css">
+  <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/48938155eb24b4ccdde09426066869504c6dab3c/dist/css/bootstrap.min.css">
+  <script src="https://maps.googleapis.com/maps/api/js"></script>
+</head>
+
+<body>
+  <div class="container"></div>
+</body>
+<script src="/bundle.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBkydVSG5JZx43ttkTqqFO59bb61HGUsOo",
+    authDomain: "address-list-c4b79.firebaseapp.com",
+    databaseURL: "https://address-list-c4b79.firebaseio.com",
+    projectId: "address-list-c4b79",
+    storageBucket: "",
+    messagingSenderId: "36880529210"
+  };
+  firebase.initializeApp(config);
+</script>
+
 </html>

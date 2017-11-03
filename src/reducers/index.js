@@ -1,7 +1,9 @@
 import { combineReducers } from 'redux';
-import WeatherReducer from './reducer_weather';
+import {IsValid} from './reducer_address';
+import {Address} from './reducer_address';
 const rootReducer = combineReducers({
-  weather: WeatherReducer
+    isValid: IsValid,
+    address : Address
 });
 
 export default rootReducer;
