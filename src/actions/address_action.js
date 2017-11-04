@@ -1,5 +1,5 @@
 import firebase from 'firebase'
-
+import _ from 'lodash'
 const config = {
     apiKey: "AIzaSyBkydVSG5JZx43ttkTqqFO59bb61HGUsOo",
     authDomain: "address-list-c4b79.firebaseapp.com",
@@ -10,7 +10,7 @@ const config = {
 };
 firebase.initializeApp(config);
 let database = firebase.database();
-
+let addresses = database.ref("/")
 /*
  * action types
  */
@@ -24,42 +24,45 @@ export const ACTION_TYPES = {
 /*
  * action creators
  */
- 
+
 export function AddNewAddress(address) {
-    return {
-        type: ACTION_TYPES.ADD_NEW_ADDRESS,
-        payload: address
-    }
+    return dispatch => addresses.push(address);
+    // return {     type: ACTION_TYPES.ADD_NEW_ADDRESS,     payload: {
+    // [_.uniqueId()]: address     } };
 }
 
 export function fetchAddress() {
-    return {
-        type: ACTION_TYPES.FETCH_ADDRESS,
-        payload: [
-            {
-                _id: 1,
-                StreetName: '72 duong 7',
-                Ward: 'Phuoc binh',
-                District: 'Quan 9',
-                City: 'HCM',
-                Country: 'Viet nam'
-            },
-            {
-                _id: 2,
-                StreetName: '72 asd 7',
-                Ward: 'asd binh',
-                District: 'Quaasdn 9',
-                City: 'asd',
-                Country: 'asd nam'
-            }
-        ]
+    return dispatch => {
+        addresses.on('value', snapshot => {
+            dispatch({
+                type: ACTION_TYPES.FETCH_ADDRESS,
+                payload: snapshot.val()
+            })
+        })
     }
+    // return {
+    //     type: ACTION_TYPES.FETCH_ADDRESS,
+    //     payload: [
+    //         {
+    //             _id: 1,
+    //             StreetName: '72 duong 7',
+    //             Ward: 'Phuoc binh',
+    //             District: 'Quan 9',
+    //             City: 'HCM',
+    //             Country: 'Viet nam'
+    //         }, 
+    //         {
+    //             _id: 2,
+    //             StreetName: '72 asd 7',
+    //             Ward: 'asd binh',
+    //             District: 'Quaasdn 9',
+    //             City: 'asd',
+    //             Country: 'asd nam'
+    //         }
+    //     ]
+    // }
 }
 
-export function IsValid(address){
-    return {
-        type: ACTION_TYPES.IS_VALID,
-        payload: address
-    }
+export function IsValid(address) {
+    return {type: ACTION_TYPES.IS_VALID, payload: address}
 }
-

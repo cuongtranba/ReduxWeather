@@ -1,22 +1,25 @@
 import {ACTION_TYPES} from '../actions/address_action'
 
-
 export function IsValid(state = {}, action) {
     switch (action.type) {
         case ACTION_TYPES.IS_VALID:
-            let address = action.payload;                    
+            let address = action.payload;
             let result = {
-                ward:false,
-                district:false
+                ward: "",
+                district: "",
+                streetName: ""
             }
-            if(address.City){
-                return result;                    
-            }else{
+            if (!address.StreetName) {
+                result.streetName = "has-error"
+            }
+            if (address.City) {
+                return result;
+            } else {
                 if (!address.District) {
-                    result.district = true
+                    result.district = "has-error"
                 }
                 if (!address.Ward) {
-                    result.ward = true
+                    result.ward = "has-error"
                 }
             }
             return result
@@ -29,7 +32,10 @@ export function IsValid(state = {}, action) {
 export function Address(state = [], action) {
     switch (action.type) {
         case ACTION_TYPES.FETCH_ADDRESS:
-            return [...action.payload, ...state];
+            return [
+                ...action.payload,
+                ...state
+            ];
         default:
             return state;
     }
