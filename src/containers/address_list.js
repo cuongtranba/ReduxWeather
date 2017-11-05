@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {fetchAddress} from '../actions/address_action'
-import { bindActionCreators } from 'redux';
+import {bindActionCreators} from 'redux';
+import _ from "lodash"
 
 class AddressList extends Component {
     constructor(props) {
         super(props);
-        this.props.fetchAddress();
     };
     renderAddress(address) {
-        return(
+        return (
             <tr key={address._id}>
                 <td>{address.StreetName}</td>
                 <td>{address.Ward}</td>
@@ -19,10 +19,14 @@ class AddressList extends Component {
             </tr>
         );
     };
-
+    componentWillMount() {
+        this
+            .props
+            .fetchAddress();
+    }
     render() {
         return (
-                <table className="table table-hover">
+            <table className="table table-hover">
                 <thead>
                     <tr>
                         <th>Street Name</th>
@@ -33,24 +37,32 @@ class AddressList extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.props.address.map(this.renderAddress)}
+                    {Object
+                        .keys(this.props.address)
+                        .map((key) => {
+                            return (
+                                <tr key={key}>
+                                <td>{this.props.address[key].StreetName}</td>
+                                <td>{this.props.address[key].Ward}</td>
+                                <td>{this.props.address[key].District}</td>
+                                <td>{this.props.address[key].City}</td>
+                                <td>{this.props.address[key].Country}</td>
+                            </tr>
+                            )
+                        })
+                    }
                 </tbody>
             </table>
         );
     }
 }
 
+const mapDispatchToProps = dispatch => ({
+    fetchAddress: () => dispatch(fetchAddress())
+})
 
-function mapDispatchToProps(dispatch){
-    return bindActionCreators({
-        fetchAddress:fetchAddress,
-    },dispatch);
+function mapStateToProps(state) {
+    return {address: state.address}
 }
 
-function mapStateToProps(state){
-    return {
-        address:state.address
-    }
-}
-
-export default connect(mapStateToProps,mapDispatchToProps)(AddressList);
+export default connect(mapStateToProps, mapDispatchToProps)(AddressList);

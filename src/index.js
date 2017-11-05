@@ -12,7 +12,7 @@ const composeEnhancers = typeof window === 'object' && window.__REDUX_DEVTOOLS_E
   : compose;
 
 
-const store = createStore(reducers, /* preloadedState, */ composeEnhancers(
+const store = createStore(reducers,  {address:[]}, composeEnhancers(
     applyMiddleware(thunk)
 ));
   

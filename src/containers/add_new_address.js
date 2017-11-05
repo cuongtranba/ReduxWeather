@@ -9,7 +9,8 @@ class AddNewAddressForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            address: ''
+            address: '',
+            addressForm:null
         };
         this.onChange = (address) => {
             this.setState({address})
@@ -32,8 +33,20 @@ class AddNewAddressForm extends Component {
             City: event.target.City.value,
             Country: event.target.Country.value
         }
+
         this.props.IsValid(formValues);
+        this.setState({addressForm:formValues})
     }
+
+    componentWillReceiveProps(nextProps){
+        let result = nextProps.result;
+        if (result.ward == "" && result.district == "" && result.streetName == "") {
+            this.props.AddNewAddress(this.state.address);
+        }
+    }
+    
+    
+
 
     render() {
         const inputProps = {
@@ -51,7 +64,7 @@ class AddNewAddressForm extends Component {
                         City: addressComponent[4].long_name,
                         Country: addressComponent[5].long_name
                     } 
-                    console.log(formValues);
+                    this.props.AddNewAddress(formValues);
                 });
         }
         return (

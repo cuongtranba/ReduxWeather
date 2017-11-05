@@ -29,13 +29,13 @@ export function IsValid(state = {}, action) {
     return state;
 }
 
-export function Address(state = [], action) {
+export function Address(state = {}, action) {
     switch (action.type) {
         case ACTION_TYPES.FETCH_ADDRESS:
-            return [
-                ...action.payload,
-                ...state
-            ];
+            return action.payload;
+        case ACTION_TYPES.ADD_NEW_ADDRESS:
+            console.log(action.payload);
+            return { ...state, ...action.payload };
         default:
             return state;
     }

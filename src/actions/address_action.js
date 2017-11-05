@@ -11,6 +11,7 @@ const config = {
 firebase.initializeApp(config);
 let database = firebase.database();
 let addresses = database.ref("/")
+
 /*
  * action types
  */
@@ -26,41 +27,26 @@ export const ACTION_TYPES = {
  */
 
 export function AddNewAddress(address) {
-    return dispatch => addresses.push(address);
-    // return {     type: ACTION_TYPES.ADD_NEW_ADDRESS,     payload: {
-    // [_.uniqueId()]: address     } };
+    return (dispatch) => {
+        addresses.push(address);
+        dispatch({
+            type: ACTION_TYPES.ADD_NEW_ADDRESS,
+            payload: addresses.push(address)
+        })
+    };
 }
 
 export function fetchAddress() {
-    return dispatch => {
-        addresses.on('value', snapshot => {
-            dispatch({
-                type: ACTION_TYPES.FETCH_ADDRESS,
-                payload: snapshot.val()
-            })
-        })
-    }
-    // return {
-    //     type: ACTION_TYPES.FETCH_ADDRESS,
-    //     payload: [
-    //         {
-    //             _id: 1,
-    //             StreetName: '72 duong 7',
-    //             Ward: 'Phuoc binh',
-    //             District: 'Quan 9',
-    //             City: 'HCM',
-    //             Country: 'Viet nam'
-    //         }, 
-    //         {
-    //             _id: 2,
-    //             StreetName: '72 asd 7',
-    //             Ward: 'asd binh',
-    //             District: 'Quaasdn 9',
-    //             City: 'asd',
-    //             Country: 'asd nam'
-    //         }
-    //     ]
-    // }
+    return (dispatch) => {
+        addresses
+            .once('value')
+            .then(function (snapshot) {
+                dispatch({
+                    type: ACTION_TYPES.FETCH_ADDRESS,
+                    payload: snapshot.val()
+                })
+            });
+    };
 }
 
 export function IsValid(address) {
